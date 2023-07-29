@@ -23,7 +23,7 @@ export default function Resources() {
 
 
   useEffect(() => {
-    axios.get('https://engineering-task.elancoapps.com/api/resources').then((response) => {
+    axios.get('https://engineering-task.elancoapps.com/api/applications').then((response) => {
       setReources(response.data);
     }).catch((err) => {
       console.log(err);
@@ -32,7 +32,7 @@ export default function Resources() {
 
   return (
     <Container maxW='container.xl' pb={10}>
-      <Text as='h1' fontSize={{ base: '2xl', md: '3x', lg: '4xl'}} fontWeight='semibold' mb={4} color='purple.400'>Resources</Text> {/* "Resources" heading */}
+      <Text as='h1' fontSize={{ base: '2xl', md: '3x', lg: '4xl'}} fontWeight='semibold' mb={4} color='purple.400'>Applications</Text> {/* "Resources" heading */}
       <Grid
         templateColumns={`repeat(${columnCount}, 1fr)`}
         gap={isSmallScreen ? 4 : 8}
@@ -41,7 +41,7 @@ export default function Resources() {
           resources.map((item, index) => (
             <GridItem key={index}>
               <Link
-                to={`/resources/${item}`}
+                to={`/applications/${item}`}
                 style={{ textDecoration: 'none' }}
               >
                 <Box

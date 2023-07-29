@@ -1,18 +1,32 @@
-import { Box, Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button, Box } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <Box 
-        bg="white.500" color="white" 
-        p={4} 
-        border= '2px solid white'
-        mb={8}
+        <Flex
+            bg="purple.300"
+            color="white"
+            py={4}
+            justifyContent="space-between"
+            alignItems="center"
+            fontWeight="bold"
+            height={100}
+            mb={8}
+            p={8}
+            width="100%"
         >
-            <Flex alignItems="center" justifyContent="space-between">
-                <Text fontSize="xl">My App</Text>
-               
-            </Flex>
-        </Box>
+            <Button as={Link} to="/" colorScheme="purple" mr={2}>
+                Home
+            </Button>
+            <Box>
+                <Button as={Link} to="/applications" colorScheme="purple" mr={2}>
+                    Applications
+                </Button>
+                <Button as={Link} to="/resources" colorScheme="purple">
+                    Resources
+                </Button>
+            </Box>
+        </Flex>
     );
 };
 
