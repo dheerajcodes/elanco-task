@@ -4,13 +4,11 @@ import {
     Box,
     Heading,
     Stack,
-    Stat,
-    StatLabel,
-    StatNumber,
     Divider,
     SimpleGrid,
 } from '@chakra-ui/react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import StatCard from '../Components/StatsCard';
 
 const HomePage = () => {
     const [applications, setApplications] = useState([]);
@@ -25,17 +23,17 @@ const HomePage = () => {
             axios.get('https://engineering-task.elancoapps.com/api/resources'),
             axios.get('https://engineering-task.elancoapps.com/api/raw'),
         ])
-        .then(axios.spread((applicationsResponse, resourcesResponse, rawDataResponse) => {
-            setApplications(applicationsResponse.data);
-            setResources(resourcesResponse.data);
-            setRawData(rawDataResponse.data);
-            setLoading(false);
-            findMostUsedResource(rawDataResponse.data);
-        }))
-        .catch((error) => {
-            console.error('Error fetching data:', error.message);
-            setLoading(false);
-        });
+            .then(axios.spread((applicationsResponse, resourcesResponse, rawDataResponse) => {
+                setApplications(applicationsResponse.data);
+                setResources(resourcesResponse.data);
+                setRawData(rawDataResponse.data);
+                setLoading(false);
+                findMostUsedResource(rawDataResponse.data);
+            }))
+            .catch((error) => {
+                console.error('Error fetching data:', error.message);
+                setLoading(false);
+            });
     }, []);
 
     const findMostUsedResource = (data) => {
@@ -74,7 +72,7 @@ const HomePage = () => {
     }));
 
     const totalConsumedQuantity = rawData.reduce((total, item) => total + parseInt(item.ConsumedQuantity), 0);
-    const totalCost = rawData.reduce((total, item) => total + parseFloat(item.Cost), 0);
+    const totalCost = rawData.reduce((total, item) => total + parseFloat(item.Cost), 0)//.toFixed(2);
 
     const uniqueLocations = [...new Set(rawData.map(item => item.Location))];
     const pieChartData = uniqueLocations.map((location, index) => ({
@@ -92,27 +90,15 @@ const HomePage = () => {
             <Divider my={6} />
 
             <Stack spacing={6}>
-                <Heading as="h2" size="lg" color="purple.500">
+                <Heading as="h2" size="xl" color="purple.700">
                     Overview
                 </Heading>
 
                 <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={6}>
-                    <Stat>
-                        <StatLabel color="purple.400">Total Applications</StatLabel>
-                        <StatNumber>{applications.length}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel color="purple.400">Total Resources</StatLabel>
-                        <StatNumber>{resources.length}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel color="purple.400">Total Consumed Quantity</StatLabel>
-                        <StatNumber>{totalConsumedQuantity}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel color="purple.400">Total Cost</StatLabel>
-                        <StatNumber>{totalCost}</StatNumber>
-                    </Stat>
+                    <StatCard label="Total Applications" value={applications.length} />
+                    <StatCard label="Total Resources" value={resources.length} />
+                    <StatCard label="Total Consumed Quantity" value={totalConsumedQuantity} />
+                    <StatCard label="Total Cost" value={totalCost.toFixed(2)} /> {/* Round totalCost to 2 decimal places */}
                 </SimpleGrid>
 
                 <Divider my={6} />
@@ -140,12 +126,12 @@ const HomePage = () => {
                 </Heading>
 
                 <Box bg="white" p={4} borderRadius="md" boxShadow="md">
-                    <PieChart width={400} height={400}>
+                    <PieChart width={600} height={500}>
                         <Pie
                             data={pieChartData}
                             cx="50%"
                             cy="50%"
-                            outerRadius={80}
+                            outerRadius={150}
                             fill="#8884d8"
                             dataKey="value"
                             label={({ cx, cy, midAngle, innerRadius, outerRadius, value, index }) => {
@@ -179,5 +165,6 @@ const HomePage = () => {
         </Box>
     );
 };
+
 
 export default HomePage;

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 
-import { Box, Container, Text } from '@chakra-ui/react';
+import { Box, Container, Text, SimpleGrid } from '@chakra-ui/react';
 import axios from 'axios';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import { useParams } from 'react-router-dom';
+
+import StatCard from '../StatsCard';
 
 const ApplicationDetailsPage = () => {
 
@@ -15,7 +17,7 @@ const ApplicationDetailsPage = () => {
 
     // Calculate total consumed quantity and total cost
     const totalConsumedQuantity = application.reduce((sum, item) => sum + parseInt(item.ConsumedQuantity), 0);
-    const totalCost = application.reduce((sum, item) => sum + parseFloat(item.Cost), 0);
+    const totalCost = application.reduce((sum, item) => sum + parseFloat(item.Cost), 0).toFixed(2);
 
     // Prepare data for the LineChart and BarChart
     const chartData = application.map(item => ({ date: item.Date, consumedQuantity: parseInt(item.ConsumedQuantity) }));
@@ -52,16 +54,13 @@ const ApplicationDetailsPage = () => {
             </Text>
 
 
-            <Text fontSize="xl" fontWeight="medium" mb={4} color='green.500'>
-                <Text color='purple.400' mr={6} display='inline'>Total Consumed Quantity:</Text> {totalConsumedQuantity}
-            </Text>
-
-            <Text fontSize="xl" fontWeight="medium" mb={4} color='green.500'>
-                <Text color='purple.400' mr={6} display='inline'>Total Cost: </Text>{totalCost}
-            </Text>
+            <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={6}>
+                <StatCard label="Total Consumed Quantity:" value={totalConsumedQuantity} />
+                <StatCard label="Total Cost" value={totalCost} /> {/* Round totalCost to 2 decimal places */}
+            </SimpleGrid>
 
             {/* Resource Consumption Over Time (Line Chart) */}
-            <Box bg="white" p={4} mb={8}>
+            <Box bg="white" p={4} mb={8} mt={8}>
                 <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
                     Resource Consumption Over Time
                 </Text>
@@ -76,7 +75,7 @@ const ApplicationDetailsPage = () => {
             </Box>
 
             {/* Resource Consumption by Date (Bar Chart) */}
-            <Box bg="white" p={4} mb={8}>
+            <Box bg="white" p={4} mb={8} >
                 <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
                     Resource Consumption by Date
                 </Text>
