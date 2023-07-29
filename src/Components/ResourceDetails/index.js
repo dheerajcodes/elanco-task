@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Container, Flex, Text, Box, Menu, MenuButton, Button, MenuItem, MenuList } from '@chakra-ui/react';
+import MyLineChart from '../Charts/MyLineChart';
+import MyBarChart from '../Charts/MyBarChart';
 
 const ResourceDetails = () => {
   const { slug: resourceName } = useParams();
@@ -39,11 +40,6 @@ const ResourceDetails = () => {
         });
     }
   }, [resource]);
-
-  // const handleApplicationChange = (event) => {
-  //   const selectedAppName = event.target.value;
-  //   setSelectedApplication(selectedAppName);
-  // };
 
   if (loading) {
     return <Text fontSize={70} color="green.400">Loading...</Text>;
@@ -86,34 +82,18 @@ const ResourceDetails = () => {
         </Text>
       </Box>
 
-      {/* Create a LineChart to display resource consumption over time */}
       <Box bg="white" p={4} mb={8}>
         <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
           Resource Consumption Over Time (Quantity)
         </Text>
-        <LineChart width={800} height={400} data={resource} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="Date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="ConsumedQuantity" name="Consumed Quantity" stroke="#8884d8" />
-        </LineChart>
+        <MyLineChart data={resource} dataKey="Date"/>
       </Box>
 
-      {/* Create a BarChart to display resource consumption over time (Cost) */}
       <Box bg="white" p={4} mb={8}>
         <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
           Resource Consumption Over Time (Cost)
         </Text>
-        <BarChart width={800} height={400} data={resource} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="Date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="Cost" name="Cost" fill="#82ca9d" />
-        </BarChart>
+        <MyBarChart data={resource}/>
       </Box>
     </Container>
   );
