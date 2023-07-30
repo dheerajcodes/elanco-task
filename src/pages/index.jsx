@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
     Box,
@@ -15,7 +15,6 @@ const HomePage = () => {
     const [resources, setResources] = useState([]);
     const [rawData, setRawData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [mostUsedResource, setMostUsedResource] = useState({ name: '', count: 0 });
 
     useEffect(() => {
         axios.all([
@@ -28,36 +27,12 @@ const HomePage = () => {
                 setResources(resourcesResponse.data);
                 setRawData(rawDataResponse.data);
                 setLoading(false);
-                findMostUsedResource(rawDataResponse.data);
             }))
             .catch((error) => {
                 console.error('Error fetching data:', error.message);
                 setLoading(false);
             });
     }, []);
-
-    const findMostUsedResource = (data) => {
-        const resourceCounts = {};
-        data.forEach(item => {
-            if (resourceCounts[item.ServiceName]) {
-                resourceCounts[item.ServiceName]++;
-            } else {
-                resourceCounts[item.ServiceName] = 1;
-            }
-        });
-
-        let maxCount = 0;
-        let mostUsedResourceName = '';
-
-        for (const resourceName in resourceCounts) {
-            if (resourceCounts[resourceName] > maxCount) {
-                maxCount = resourceCounts[resourceName];
-                mostUsedResourceName = resourceName;
-            }
-        }
-
-        setMostUsedResource({ name: mostUsedResourceName, count: maxCount });
-    };
 
 
     const parseDate = (dateString) => {
@@ -71,7 +46,6 @@ const HomePage = () => {
         consumedQuantity: parseInt(item.ConsumedQuantity),
     }));
 
-    const totalConsumedQuantity = rawData.reduce((total, item) => total + parseInt(item.ConsumedQuantity), 0);
     const totalCost = rawData.reduce((total, item) => total + parseFloat(item.Cost), 0)//.toFixed(2);
 
     const uniqueLocations = [...new Set(rawData.map(item => item.Location))];
@@ -97,7 +71,7 @@ const HomePage = () => {
                 <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={6}>
                     <StatCard label="Total Applications" value={applications.length} />
                     <StatCard label="Total Resources" value={resources.length} />
-                    <StatCard label="Total Consumed Quantity" value={totalConsumedQuantity} />
+                    {/* <StatCard label="Total Consumed Quantity" value={totalConsumedQuantity} /> */}
                     <StatCard label="Total Cost" value={totalCost.toFixed(2)} /> {/* Round totalCost to 2 decimal places */}
                 </SimpleGrid>
 
@@ -108,7 +82,7 @@ const HomePage = () => {
                 </Heading>
 
                 {/* Replace the placeholder chart with your actual LineChart */}
-                <Box bg="white" p={4} borderRadius="md" boxShadow="md">
+                <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md">
                     <LineChart width={800} height={400} data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" />
@@ -125,7 +99,7 @@ const HomePage = () => {
                     Resource Consumption by Location
                 </Heading>
 
-                <Box bg="white" p={4} borderRadius="md" boxShadow="md">
+                <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md">
                     <PieChart width={600} height={500}>
                         <Pie
                             data={pieChartData}

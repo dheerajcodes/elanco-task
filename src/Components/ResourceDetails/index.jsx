@@ -51,28 +51,34 @@ const ResourceDetails = () => {
   return (
     <Container maxW="container.xl" alignSelf="center" pb={10} width="100%">
       <Box mb={8}>
-        <Text as="h1" fontSize="3xl" fontWeight="bold" mb={4} color='purple.400'>
+        <Text as="h1" fontSize="3xl" fontWeight="bold" mb={4} color="purple.400">
           Resource Details
         </Text>
-        <Text as="h2" fontSize="xl" fontWeight="medium" color='green.500'>
-          <Text color='purple.400' mr={6} display='inline'>Resource Name:</Text> {resourceName}
-        </Text>
-        <Text as="h2" fontSize="xl" fontWeight="medium" mt={2} color='green.500'>
-          <Text color='purple.400' mr={6} display='inline'>Resource Group:</Text> {resource[0].ResourceGroup}
-        </Text>
-        <Text as="h2" fontSize="xl" fontWeight="medium" color='green.500'>
-          <Text color='purple.400' mr={6} display='inline'>Number of applications using the resource:</Text> {applicationsUsingResource.length}
-        </Text>
+        <Box p={4} bg="gray.50" borderRadius="md" boxShadow="md" mb={4}>
+          <Text as="h2" fontSize="xl" fontWeight="medium" color="green.500">
+            <Text color="purple.400" mr={6} display="inline">Resource Name:</Text> {resourceName}
+          </Text>
+        </Box>
+        <Box p={4} bg="gray.50" borderRadius="md" boxShadow="md" mb={4}>
+          <Text as="h2" fontSize="xl" fontWeight="medium" mt={2} color="green.500">
+            <Text color="purple.400" mr={6} display="inline">Resource Group:</Text> {resource[0].ResourceGroup}
+          </Text>
+        </Box>
+        <Box p={4} bg="gray.50" borderRadius="md" boxShadow="md" mb={4}>
+          <Text as="h2" fontSize="xl" fontWeight="medium" color="green.500">
+            <Text color="purple.400" mr={6} display="inline">Number of applications using the resource:</Text> {applicationsUsingResource.length}
+          </Text>
+        </Box>
       </Box>
 
-      <Box bg="white" p={4} mb={8}>
+      <Box bg="gray.50" p={4} mb={8}>
         <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
           Resource Consumption Over Time (Quantity)
         </Text>
         <MyLineChart data={resource} dataKey="Date" />
       </Box>
 
-      <Box bg="white" p={4} mb={8}>
+      <Box bg="gray.50" p={4} mb={8}>
         <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
           Resource Consumption Over Time (Cost)
         </Text>
@@ -89,7 +95,7 @@ const ResourceDetails = () => {
             <Link key={app.InstanceId} to={`/applications/${app}`} style={{ textDecoration: 'none' }}>
               <Box
                 p={4}
-                bg="purple.50"
+                bg="white"
                 minHeight={20}
                 color="black"
                 fontWeight={600}

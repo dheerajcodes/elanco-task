@@ -60,7 +60,7 @@ const ApplicationDetailsPage = () => {
             </SimpleGrid>
 
             {/* Resource Consumption Over Time (Line Chart) */}
-            <Box bg="white" p={4} mb={8} mt={8}>
+            <Box bg="gray.50" p={4} mb={8} mt={8}>
                 <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
                     Resource Consumption Over Time
                 </Text>
@@ -75,7 +75,7 @@ const ApplicationDetailsPage = () => {
             </Box>
 
             {/* Resource Consumption by Date (Bar Chart) */}
-            <Box bg="white" p={4} mb={8} >
+            <Box bg="gray.50" p={4} mb={8} >
                 <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
                     Resource Consumption by Date
                 </Text>
