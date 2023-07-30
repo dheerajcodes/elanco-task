@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 
-import { Box, Container, Text, SimpleGrid, Divider } from '@chakra-ui/react';
+import { Box, Container, Text, SimpleGrid, Divider, Heading } from '@chakra-ui/react';
 import axios from 'axios';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import { useParams } from 'react-router-dom';
@@ -21,7 +21,34 @@ const ApplicationDetailsPage = () => {
 
     // Prepare data for the LineChart and BarChart
     const chartData = application.map(item => ({ date: item.Date, consumedQuantity: parseInt(item.ConsumedQuantity) }));
-    console.log('cd', chartData)
+
+    const averageConsumedQuantity = (totalConsumedQuantity / application.length).toFixed(2);
+
+    // Calculate the most consumed resource
+    const resourceUsageMap = new Map();
+    application.forEach(item => {
+        const resourceName = item.ServiceName;
+        if (resourceUsageMap.has(resourceName)) {
+            const existingData = resourceUsageMap.get(resourceName);
+            existingData.consumedQuantity += parseFloat(item.ConsumedQuantity);
+            existingData.cost += parseFloat(item.Cost);
+            resourceUsageMap.set(resourceName, existingData);
+        } else {
+            resourceUsageMap.set(resourceName, {
+                consumedQuantity: parseFloat(item.ConsumedQuantity),
+                cost: parseFloat(item.Cost),
+            });
+        }
+    });
+
+    const mostConsumedResource = Array.from(resourceUsageMap.entries()).reduce(
+        (maxResource, [resourceName, data]) => {
+            return data.consumedQuantity > maxResource.consumedQuantity
+                ? { resourceName, ...data }
+                : maxResource;
+        },
+        { consumedQuantity: 0 }
+    );
 
     useEffect(() => {
         axios.get(`https://engineering-task.elancoapps.com/api/applications/${appName}`)
@@ -58,8 +85,31 @@ const ApplicationDetailsPage = () => {
 
             <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={6}>
                 <StatCard label="Total Consumed Quantity:" value={totalConsumedQuantity} />
+                <StatCard label="Average Consumed Quantity:" value={averageConsumedQuantity} />
                 <StatCard label="Total Cost" value={totalCost} /> {/* Round totalCost to 2 decimal places */}
             </SimpleGrid>
+
+            <Divider my={6} />
+
+            {/* Most Consumed Resource */}
+            <Box bg="gray.50" p={4} mb={8} mt={8}>
+                <Text as="h3" fontSize="lg" fontWeight="bold" mb={4} color='purple.500'>
+                    Most Consumed Resource
+                </Text>
+                <Box>
+                    <Heading as="h3" size="md" mb={2} >
+                        {mostConsumedResource.resourceName}
+                    </Heading>
+                    <Box>
+                        <Text fontSize="md" fontWeight='semibold' >
+                            Consumed Quantity: {mostConsumedResource.consumedQuantity.toFixed(2)}
+                        </Text>
+                        <Text fontSize="md" fontWeight='semibold'>
+                            Total Cost: {mostConsumedResource.cost.toFixed(2)}
+                        </Text>
+                    </Box>
+                </Box>
+            </Box>
 
             <Divider my={6} />
 

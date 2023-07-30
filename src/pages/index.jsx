@@ -10,6 +10,8 @@ import {
 } from '@chakra-ui/react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import StatCard from '../Components/StatsCard';
+import ResponsiveGrid from '../Components/ResponsiveGrid';
+import ResourceItemCard from '../Components/ResourceItemCard';
 
 const HomePage = () => {
     const [applications, setApplications] = useState([]);
@@ -62,12 +64,17 @@ const HomePage = () => {
         return currentResource.value > maxResource.value ? currentResource : maxResource;
     }, pieChartData[0]);
 
+    // Identify the top applications based on consumed quantity
+    const topApplications = applications.sort((a, b) => b.ConsumedQuantity - a.ConsumedQuantity).slice(0, 5);
+
+    console.log('top', topApplications);
+
 
 
     return (
         <Box p={8} pb={10}>
             <Heading as="h1" size="xl" mb={4} color="purple.600">
-                Elanco Cloud Insights Dashboard
+                Elanco Cloud Insights
             </Heading>
 
             <Divider my={6} />
@@ -92,6 +99,21 @@ const HomePage = () => {
 
                     {/* Existing code... */}
                 </Stack>
+
+                <Divider my={6} />
+
+                <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md">
+                    <Heading as="h2" size="lg" color="purple.500" mb={4}>
+                        Top Applications Using Resources
+                    </Heading>
+
+                    <ResponsiveGrid>
+                        {topApplications.map((app) => (
+                            <ResourceItemCard linkPath="/applications" item={app} />
+                        ))}
+                    </ResponsiveGrid>
+
+                </Box>
 
                 <Divider my={6} />
 
@@ -165,15 +187,12 @@ const MostUsedResourceCard = ({ resource }) => {
                 Most Used Resource
             </Heading>
             <Box>
-                <Heading as="h3" size="md" mb={2}>
+                <Text fontSize="md" fontWeight={600}>
                     {resource?.name}
-                </Heading>
-                <Box>
-                    <Text fontSize="md"  fontWeight={600}>
-                        Consumed Quantity: {resource?.value}
-                    </Text>
-                    {/* Add any additional information about the resource here */}
-                </Box>
+                </Text>
+                <Text fontSize="md" fontWeight={600}>
+                    Consumed Quantity: {resource?.value}
+                </Text>
             </Box>
         </Box>
     );

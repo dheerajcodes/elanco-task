@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import { Container, Flex, Text, Box, Divider } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+import { Container, Text, Box, Divider } from '@chakra-ui/react';
 import MyLineChart from '../Charts/MyLineChart';
 import MyBarChart from '../Charts/MyBarChart';
+import ResponsiveGrid from '../ResponsiveGrid';
+import ResourceItemCard from '../ResourceItemCard';
 
 const ResourceDetails = () => {
   const { slug: resourceName } = useParams();
@@ -97,30 +99,11 @@ const ResourceDetails = () => {
         <Text as="h1" fontSize="2xl" fontWeight="bold" mb={8} color='purple.500' >
           Applications Using This Resource
         </Text>
-        <Flex flexWrap="wrap" justify="space-around" gap={4}>
+        <ResponsiveGrid>
           {applicationsUsingResource.map((app) => (
-            <Link key={app.InstanceId} to={`/applications/${app}`} style={{ textDecoration: 'none' }}>
-              <Box
-                p={4}
-                bg="white"
-                minHeight={20}
-                color="black"
-                fontWeight={600}
-                borderColor="gray.300"
-                borderWidth="1px"
-                borderRadius="md"
-                boxShadow="md"
-                textAlign="center"
-                transition="all 0.2s"
-                _hover={{ boxShadow: 'lg', transform: 'scale(1.05)' }}
-                mb={4}
-                width="200px"
-              >
-                <Text fontWeight="semibold">{app}</Text>
-              </Box>
-            </Link>
+            <ResourceItemCard linkPath="/applications" item={app} />
           ))}
-        </Flex>
+        </ResponsiveGrid>
       </Box>
 
       <Divider my={6} />
