@@ -19,11 +19,11 @@ const Header = () => {
                 Home
             </Button>
             <Box>
-                <Button as={Link} to="/applications" colorScheme="purple" mr={2}>
-                    Applications
-                </Button>
-                <Button as={Link} to="/resources" colorScheme="purple">
+                <Button as={Link} to="/resources" colorScheme="purple" mr={8}>
                     Resources
+                </Button>
+                <Button as={Link} to="/applications" colorScheme="purple" >
+                    Applications
                 </Button>
             </Box>
         </Flex>

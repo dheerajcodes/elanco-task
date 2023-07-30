@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Flex, Text, Box, Menu, MenuButton, Button, MenuItem, MenuList } from '@chakra-ui/react';
+import { useParams, Link } from 'react-router-dom';
+import { Container, Flex, Text, Box } from '@chakra-ui/react';
 import MyLineChart from '../Charts/MyLineChart';
 import MyBarChart from '../Charts/MyBarChart';
 
@@ -12,7 +12,6 @@ const ResourceDetails = () => {
   const [applicationsUsingResource, setApplicationsUsingResource] = useState([]);
 
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -51,22 +50,6 @@ const ResourceDetails = () => {
 
   return (
     <Container maxW="container.xl" alignSelf="center" pb={10} width="100%">
-      <Flex justify="flex-end" mb={4}>
-        {/* Dropdown to show applications using the resource */}
-        <Menu>
-          <MenuButton as={Button} colorScheme="purple" size="sm">
-            Applications Using This Resource
-          </MenuButton>
-          <MenuList maxH="500px" overflowY="auto">
-            {applicationsUsingResource.map((app) => (
-              <MenuItem key={app.InstanceId} value={app} onClick={() => navigate(`/applications/${app}`)}>
-                {app}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
-      </Flex>
-
       <Box mb={8}>
         <Text as="h1" fontSize="3xl" fontWeight="bold" mb={4} color='purple.400'>
           Resource Details
@@ -86,14 +69,45 @@ const ResourceDetails = () => {
         <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
           Resource Consumption Over Time (Quantity)
         </Text>
-        <MyLineChart data={resource} dataKey="Date"/>
+        <MyLineChart data={resource} dataKey="Date" />
       </Box>
 
       <Box bg="white" p={4} mb={8}>
         <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
           Resource Consumption Over Time (Cost)
         </Text>
-        <MyBarChart data={resource}/>
+        <MyBarChart data={resource} />
+      </Box>
+
+      {/* List of applications using the resource */}
+      <Box bg="gray.50" p={4} mb={8}>
+        <Text as="h1" fontSize="2xl" fontWeight="bold" mb={8} color='purple.500' >
+          Applications Using This Resource
+        </Text>
+        <Flex flexWrap="wrap" justify="space-around" gap={4}>
+          {applicationsUsingResource.map((app) => (
+            <Link key={app.InstanceId} to={`/applications/${app}`} style={{ textDecoration: 'none' }}>
+              <Box
+                p={4}
+                bg="purple.50"
+                minHeight={20}
+                color="black"
+                fontWeight={600}
+                borderColor="gray.300"
+                borderWidth="1px"
+                borderRadius="md"
+                boxShadow="md"
+                textAlign="center"
+                transition="all 0.2s"
+                _hover={{ boxShadow: 'lg', transform: 'scale(1.05)' }}
+                mb={4}
+                width="200px"
+              >
+                <Text fontWeight="semibold">{app}</Text>
+              </Box>
+            </Link>
+          ))}
+        </Flex>
       </Box>
     </Container>
   );
