@@ -58,7 +58,7 @@ const HomePage = () => {
     return (
         <Box p={8} pb={10}>
             <Heading as="h1" size="xl" mb={4} color="purple.600">
-                Welcome to Your Resource Management Dashboard
+                Elanco Cloud Insights Dashboard
             </Heading>
 
             <Divider my={6} />

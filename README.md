@@ -1,8 +1,35 @@
-# Getting Started with Create React App
+### Elanco Cloud Monitor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Description
 
-## Available Scripts
+Elanco Cloud Monitor is a web application built with React that allows users to view resource details and applications using those resources. The application fetches data from a RESTful API to display information about resources and their consumption over time.
+
+## Dependencies
+
+This project relies on the following dependencies:
+
+`React` (version `^18.2.0`): JavaScript library for building user interfaces.
+
+`axios` (version `1.4.0`): Promise-based HTTP client for making API requests.
+
+`react-router-dom `(version `^6.14.2`): Routing library for React applications.
+
+`@chakra-ui/react` (version `^2.8.0`): Component library for building UI with Chakra UI.
+
+`recharts` (version `^2.7.2`): Charting library for React applications.
+
+Please make sure to install these dependencies before running the project.
+
+
+## Build and Run Instructions
+
+To build and run the project, follow these steps:
+
+Clone the repository to your local machine.
+
+Navigate to the project directory.
+
+`cd project-directory`
 
 In the project directory, you can run:
 
@@ -11,33 +38,64 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Directory Structure
 
-### `npm run eject`
+The project directory structure is organized as follows:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+project-directory/
+  ├── public/
+  │   ├── index.html
+  │   └── ...
+  ├── src/
+  │   ├── components/
+  │   │   ├── ApplicationDetails
+  │   │   ├── Header
+  │   │   └── ...
+  │   ├── pages/
+  │   │   ├── Applications
+  │   │   ├── Resources
+  │   │   └── ...
+  │   ├── Charts/
+  │   │   ├── MyLineChart.js
+  │   │   ├── MyBarChart.js
+  │   │   └── ...
+  │   ├── App.js
+  │   ├── index.js
+  │   └── ...
+  ├── .env
+  ├── .gitignore
+  ├── package.json
+  └── README.md
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`public`: Contains the public assets and index.html file.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`src`: Contains the source code for the React application.
+
+`components`: Contains reusable components used across different pages.
+
+`pages`: Contains individual page components.
+
+`Charts`: Contains custom chart components.
+
+`App.js`: Main application component that handles routing.
+
+`index.js`: Entry point for the React application.
+
+`.env`: Environment variables file (not committed to version control).
+
+`.gitignore`: Specifies which files and directories to ignore in version control.
+
+`package.json`: Lists project dependencies and scripts.
+
+`README.md`: This file, providing project documentation.
+
 
 ## Learn More
 
