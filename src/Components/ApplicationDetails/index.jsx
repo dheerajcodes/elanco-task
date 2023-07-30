@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 
-import { Box, Container, Text, SimpleGrid } from '@chakra-ui/react';
+import { Box, Container, Text, SimpleGrid, Divider } from '@chakra-ui/react';
 import axios from 'axios';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import { useParams } from 'react-router-dom';
@@ -53,15 +53,19 @@ const ApplicationDetailsPage = () => {
                 <Text color='purple.400' mr={6} display='inline'>Application: </Text> {appName}
             </Text>
 
+            <Divider my={6} />
+
 
             <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={6}>
                 <StatCard label="Total Consumed Quantity:" value={totalConsumedQuantity} />
                 <StatCard label="Total Cost" value={totalCost} /> {/* Round totalCost to 2 decimal places */}
             </SimpleGrid>
 
+            <Divider my={6} />
+
             {/* Resource Consumption Over Time (Line Chart) */}
             <Box bg="gray.50" p={4} mb={8} mt={8}>
-                <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
+                <Text as="h3" fontSize="lg" fontWeight="bold" mb={4} color='purple.500'>
                     Resource Consumption Over Time
                 </Text>
                 <LineChart width={800} height={400} data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -74,9 +78,11 @@ const ApplicationDetailsPage = () => {
                 </LineChart>
             </Box>
 
+            <Divider my={6} />
+
             {/* Resource Consumption by Date (Bar Chart) */}
             <Box bg="gray.50" p={4} mb={8} >
-                <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
+                <Text as="h3" fontSize="lg" fontWeight="bold" mb={4} color='purple.500'>
                     Resource Consumption by Date
                 </Text>
                 <BarChart width={800} height={400} data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -88,6 +94,8 @@ const ApplicationDetailsPage = () => {
                     <Bar dataKey="consumedQuantity" name="Consumed Quantity" fill="#8884d8" />
                 </BarChart>
             </Box>
+
+            <Divider my={6} />
         </Container>
     );
 };

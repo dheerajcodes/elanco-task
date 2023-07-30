@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Flex, Text, Box } from '@chakra-ui/react';
+import { Container, Flex, Text, Box, Divider } from '@chakra-ui/react';
 import MyLineChart from '../Charts/MyLineChart';
 import MyBarChart from '../Charts/MyBarChart';
 
@@ -54,6 +54,7 @@ const ResourceDetails = () => {
         <Text as="h1" fontSize="3xl" fontWeight="bold" mb={4} color="purple.400">
           Resource Details
         </Text>
+        <Divider my={6} />
         <Box p={4} bg="gray.50" borderRadius="md" boxShadow="md" mb={4}>
           <Text as="h2" fontSize="xl" fontWeight="medium" color="green.500">
             <Text color="purple.400" mr={6} display="inline">Resource Name:</Text> {resourceName}
@@ -71,19 +72,25 @@ const ResourceDetails = () => {
         </Box>
       </Box>
 
+      <Divider my={6} />
+
       <Box bg="gray.50" p={4} mb={8}>
-        <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
+        <Text as="h3" fontSize="lg" fontWeight="bold" mb={4} color='purple.500'>
           Resource Consumption Over Time (Quantity)
         </Text>
         <MyLineChart data={resource} dataKey="Date" />
       </Box>
 
+      <Divider my={6} />
+
       <Box bg="gray.50" p={4} mb={8}>
-        <Text as="h3" fontSize="lg" fontWeight="bold" mb={4}>
+        <Text as="h3" fontSize="lg" fontWeight="bold" mb={4} color='purple.500'>
           Resource Consumption Over Time (Cost)
         </Text>
         <MyBarChart data={resource} />
       </Box>
+
+      <Divider my={6} />
 
       {/* List of applications using the resource */}
       <Box bg="gray.50" p={4} mb={8}>
@@ -115,6 +122,8 @@ const ResourceDetails = () => {
           ))}
         </Flex>
       </Box>
+
+      <Divider my={6} />
     </Container>
   );
 };

@@ -6,6 +6,7 @@ import {
     Stack,
     Divider,
     SimpleGrid,
+    Text
 } from '@chakra-ui/react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import StatCard from '../Components/StatsCard';
@@ -46,14 +47,22 @@ const HomePage = () => {
         consumedQuantity: parseInt(item.ConsumedQuantity),
     }));
 
-    const totalCost = rawData.reduce((total, item) => total + parseFloat(item.Cost), 0)//.toFixed(2);
-
     const uniqueLocations = [...new Set(rawData.map(item => item.Location))];
+
+
     const pieChartData = uniqueLocations.map((location, index) => ({
         name: location,
         value: rawData.filter(item => item.Location === location).reduce((sum, item) => sum + parseInt(item.ConsumedQuantity), 0),
         fill: ['#805AD5', '#8884d8', '#a48ae3', '#b197fc', '#c6a7ff'][index % 5]
     }));
+
+    const totalCost = rawData.reduce((total, item) => total + parseFloat(item.Cost), 0)//.toFixed(2);
+
+    const mostUsedResource = pieChartData.reduce((maxResource, currentResource) => {
+        return currentResource.value > maxResource.value ? currentResource : maxResource;
+    }, pieChartData[0]);
+
+
 
     return (
         <Box p={8} pb={10}>
@@ -74,6 +83,15 @@ const HomePage = () => {
                     {/* <StatCard label="Total Consumed Quantity" value={totalConsumedQuantity} /> */}
                     <StatCard label="Total Cost" value={totalCost.toFixed(2)} /> {/* Round totalCost to 2 decimal places */}
                 </SimpleGrid>
+
+                <Divider my={6} />
+
+                <Stack spacing={6}>
+                    {/* Render the MostUsedResourceCard with the most used resource */}
+                    <MostUsedResourceCard resource={mostUsedResource} />
+
+                    {/* Existing code... */}
+                </Stack>
 
                 <Divider my={6} />
 
@@ -136,6 +154,27 @@ const HomePage = () => {
 
                 <Divider my={6} />
             </Stack>
+        </Box>
+    );
+};
+
+const MostUsedResourceCard = ({ resource }) => {
+    return (
+        <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md">
+            <Heading as="h2" size="lg" color="purple.500" mb={4}>
+                Most Used Resource
+            </Heading>
+            <Box>
+                <Heading as="h3" size="md" mb={2}>
+                    {resource?.name}
+                </Heading>
+                <Box>
+                    <Text fontSize="md"  fontWeight={600}>
+                        Consumed Quantity: {resource?.value}
+                    </Text>
+                    {/* Add any additional information about the resource here */}
+                </Box>
+            </Box>
         </Box>
     );
 };
